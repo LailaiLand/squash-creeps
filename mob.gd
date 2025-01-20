@@ -8,25 +8,17 @@ extends CharacterBody3D
 func _physics_process(_delta):
 	move_and_slide()
 
+#position params kommer fra main scene når den kjører denne i packed instance
 func initialize(start_position, player_position):
-	#vet fortsatt ikke hvor vi får variebler fra
-	#eller hvorfor vector3UP
-	#WAIT... Denne skal kalles fra Main, så start og player blir nodes
-	#veldig uintuitivt om jeg ikke hadde litt forkunnskaper.....
-	#er V3.UP aksen den roteres rundt? :0 
+	#Vector3 er global, så den sier ar det skal roteres rundt aksen oppover
 	look_at_from_position(start_position, player_position, Vector3.UP)
 	#radianer >:0
 	rotate_y(randf_range(-PI / 4, PI / 4))
 	
 	var random_speed = randi_range(min_speed, max_speed)
-	#jeg tror jeg byner å skjønne Vector3 litt bedre.
-	#den sier hvilken retning ift objoektet ting er
+	#setter en retning og ganger med tall for å gi den en fart i det heletatt
 	velocity = Vector3.FORWARD * random_speed
-	#Trodde jeg?
-	#Men så må den totere hastigheten så det passer objektet?
-	#Trodde den skulle få det fra V3.FORW?
-	#Ah, Vector3 er *global* og vi fikk rotasjonen i relasjon til player tidligere
-	#Så da må velocity som er *lokal* dreies til å matche
+	#så troterer vi den farta så den har samme rotasjon som rotation
 	velocity = velocity.rotated(Vector3.UP, rotation.y)
 	
 #greit at de er slettet når de går off screen

@@ -1,12 +1,13 @@
 extends CharacterBody3D
 
+#signal kan hentes ut i node tab og kobles med script i andre scener
+signal squashed
+
 # tilfeldig hastihetsspenn
 #ikke sikker på hvorfor export
 @export var min_speed = 10
 @export var max_speed = 18
 
-#signal kan hentes ut i node tab og kobles med script i andre scener
-signal squashed
 
 func _physics_process(_delta):
 	move_and_slide()

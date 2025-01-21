@@ -1,16 +1,17 @@
 extends CharacterBody3D
 
+#signal til å trigge events i main scene
+signal hit
+
 # @export eksponerer variablene så de kan brukes av andre noder
 # hastighet er gitt i m/s
 @export var speed = 14
 @export var fall_acceleration = 75
 @export var jump_impulse = 20
 @export var bounce_impulse = 16
+
 # Vector3.ZERO betyr at det står stille. Referansepunkt
 var target_velocity = Vector3.ZERO
-
-#signal til å trigge events i main scene
-signal hit
 
 # Alt som skal bevege seg med fysikk må regne bevegelser i _physics_process.
 func _physics_process(delta):
@@ -41,6 +42,10 @@ func _physics_process(delta):
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		target_velocity.y = jump_impulse
 	
+	# dettefart. Litt usikker hva i delta som blir lest, når det bare er forskjeller?
+	if not is_on_floor(): # artig at det er egen deteksjon for
+		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
+	
 	#Skjekker om vi kontakter med fiender
 	for index in range(get_slide_collision_count()):
 		#hent det vi kræsjer med til variabel
@@ -65,15 +70,8 @@ func _physics_process(delta):
 				#sjekker bare en og hopper ut
 				break
 	
-	# dettefart. Litt usikker hva i delta som blir lest, når det bare er forskjeller?
-	if not is_on_floor(): # artig at det er egen deteksjon for
-		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
-	
 	# velocity er innebygget og vanskelig å bølle med, så vi setter den til t_v
 	velocity = target_velocity
-	
-	
-	
 	# funksjon for å få alt til å røre seg
 	move_and_slide()
 

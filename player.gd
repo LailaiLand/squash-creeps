@@ -9,6 +9,9 @@ extends CharacterBody3D
 # Vector3.ZERO betyr at det står stille. Referansepunkt
 var target_velocity = Vector3.ZERO
 
+#signal til å trigge events i main scene
+signal hit
+
 # Alt som skal bevege seg med fysikk må regne bevegelser i _physics_process.
 func _physics_process(delta):
 	# direction brukes som en variabel vi kan endre på
@@ -43,7 +46,8 @@ func _physics_process(delta):
 		#hent det vi kræsjer med til variabel
 		var collision = get_slide_collision(index)
 		
-		#om det ikke treffer noe
+		#om mob blir squashed så sletter den og vi får error.
+		#hvis det skjer er det lurt med continue
 		if collision.get_collider() == null:
 			# så går vi videre til neste index
 			continue
@@ -72,3 +76,10 @@ func _physics_process(delta):
 	
 	# funksjon for å få alt til å røre seg
 	move_and_slide()
+
+func die() -> void:
+	hit.emit()
+	queue_free()
+
+func _on_mob_detector_body_entered(body: Node3D) -> void:
+	die()

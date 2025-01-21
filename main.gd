@@ -17,3 +17,7 @@ func _on_timer_timeout() -> void:
 	
 	#så når den er instansert og rotert og har fått riktig fart så kan den legges til
 	add_child(mob)
+
+
+func _on_player_hit() -> void:
+	$Timer.stop()

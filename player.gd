@@ -43,16 +43,18 @@ func _physics_process(delta):
 		#hent det vi kræsjer med til variabel
 		var collision = get_slide_collision(index)
 		
-		#om det er ground, for some reason?
+		#om det ikke treffer noe
 		if collision.get_collider() == null:
-			#hopp ut av loopen
+			# så går vi videre til neste index
 			continue
 		
 		#om det er mob
 		if collision.get_collider().is_in_group("mob"):
 			#lage mobvariabel
 			var mob = collision.get_collider()
-			#sjekk vinkel (les mer om dot en gang)
+			#sjekk vinkel. Normalen er 3D-vektoren hvor kollisjonen hendte
+			#om den er mer en 0.1 over 0 opp vil den trigge
+			#trigger uansett med disse verdiene med mindre mer blir lagt til for å drepe player
 			if Vector3.UP.dot(collision.get_normal()) > 0.1:
 				mob.squash()
 				target_velocity.y = bounce_impulse

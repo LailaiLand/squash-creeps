@@ -5,6 +5,9 @@ extends CharacterBody3D
 @export var min_speed = 10
 @export var max_speed = 18
 
+#signal kan hentes ut i node tab og kobles med script i andre scener
+signal squashed
+
 func _physics_process(_delta):
 	move_and_slide()
 
@@ -21,8 +24,11 @@ func initialize(start_position, player_position):
 	#så troterer vi den farta så den har samme rotasjon som rotation
 	velocity = velocity.rotated(Vector3.UP, rotation.y)
 	
-#jeg har ikke kommet hit i tutorialen enda, regner med den skal sende point increase signal også etterhvert.
+#trigges i player script når vi hopper på fiender
 func squash() -> void:
+	#sender signal om å trigge hva squashed er koblet til
+	squashed.emit()
+	#sletter instansen av mob fra minne
 	queue_free()
 #greit at de er slettet når de går off screen
 #tror jeg skal legge inn en kill field itf de bommer på skjermen

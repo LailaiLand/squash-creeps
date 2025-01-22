@@ -17,6 +17,10 @@ func _on_timer_timeout() -> void:
 	
 	#så når den er instansert og rotert og har fått riktig fart så kan den legges til
 	add_child(mob)
+	
+	#siden mob ikke er i main scene, kan den ikke connecte med editor
+	#heldigvis kan vi gjøre det med kode
+	mob.squashed.connect($UserInterface/ScoreLabel._on_mob_squashed.bind())
 
 
 func _on_player_hit() -> void:

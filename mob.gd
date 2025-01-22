@@ -24,6 +24,8 @@ func initialize(start_position, player_position):
 	velocity = Vector3.FORWARD * random_speed
 	#så troterer vi den farta så den har samme rotasjon som rotation
 	velocity = velocity.rotated(Vector3.UP, rotation.y)
+	# justerer animasjonshastigheten basert på hvor fort den svømmer
+	$AnimationPlayer.speed_scale = random_speed / min_speed
 	
 #trigges i player script når vi hopper på fiender
 func squash() -> void:

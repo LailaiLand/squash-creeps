@@ -61,5 +61,6 @@ aabb = AABB(-1.19813, -0.998445, -2.05965, 2.39627, 1.99689, 4.1193)
 libraries = {
 "": SubResource("AnimationLibrary_bid1y")
 }
+autoplay = "float"
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]

@@ -33,6 +33,10 @@ func _physics_process(delta):
 		direction = direction.normalized()
 		# henter looking_at så fysikkmotor kan kalkulere rotering
 		$Pivot.basis = Basis.looking_at(direction)
+		#bytter animasjonshastighet når vi beveger oss
+		$AnimationPlayer.speed_scale = 4
+	else:
+		$AnimationPlayer.speed_scale = 1
 	
 	# fart på bakken, basert på retning og fart deklarert i toppen
 	target_velocity.x = direction.x * speed
@@ -41,6 +45,8 @@ func _physics_process(delta):
 	#hopping
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		target_velocity.y = jump_impulse
+	# hopperotasjon
+	$Pivot.rotation.x = PI / 6 * velocity.y / jump_impulse
 	
 	# dettefart. Litt usikker hva i delta som blir lest, når det bare er forskjeller?
 	if not is_on_floor(): # artig at det er egen deteksjon for

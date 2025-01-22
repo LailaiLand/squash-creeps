@@ -2,6 +2,10 @@ extends Node
 
 @export var mob_scene: PackedScene
 
+# Ready kjører på starten for å gjøre klar til resten
+# jeg tror ikke den må være på starten, men siden den går først så ser det bedre ut
+func _ready() -> void:
+	$UserInterface/Retry.hide()
 
 func _on_timer_timeout() -> void:
 	#den ble lagt til via editor etter export
@@ -25,3 +29,10 @@ func _on_timer_timeout() -> void:
 
 func _on_player_hit() -> void:
 	$Timer.stop()
+	$UserInterface/Retry.show()
+
+# Tror denne skjekker når du trykker noe hele tiden uansett
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept") and $UserInterface/Retry.visible:
+		# Restarter når retry-skjermen er åpen
+		get_tree().reload_current_scene()
